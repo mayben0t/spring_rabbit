@@ -5,6 +5,7 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +18,10 @@ public class MQquatz {
     @Autowired
     private RabbitTemplate rabbitTemplate;
     @Autowired
+    @Qualifier("rabbit_tem")
     private Queue queue;
 
-    @Scheduled(cron = "0/5 * * * * ?")
+//    @Scheduled(cron = "0/5 * * * * ?")
     public void sendMsg(){
         String s = new Date().toString();
 //        System.out.println(queue.getName());

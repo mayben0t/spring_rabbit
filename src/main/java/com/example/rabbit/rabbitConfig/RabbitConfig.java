@@ -12,4 +12,9 @@ public class RabbitConfig {
     public Queue getQueue(){
         return new Queue("rabbit_tem");
     }
+
+    @Bean("testQueuez")
+    public Queue getQueue2(){
+        return new Queue("testQueuez");
+    }
 }
