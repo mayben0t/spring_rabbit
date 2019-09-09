@@ -20,7 +20,7 @@ public class MQ {
     public ConnectionFactory getConnectionFactory(){
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
         connectionFactory.setHost("localhost");
-        connectionFactory.setVirtualHost("/");
+        connectionFactory.setVirtualHost("/test");
         connectionFactory.setUsername("guest");
         connectionFactory.setPassword("guest");
         connectionFactory.setPort(5672);
@@ -44,8 +44,8 @@ public class MQ {
 //        return new Queue("testQueuez");
 //    }
 
-    @Bean
-    Binding bindingExchangeMessage(@Qualifier("testQueuez")Queue queue,@Qualifier("testExchange") DirectExchange exchange){
-        return BindingBuilder.bind(queue).to(exchange).with("");
-    }
+//    @Bean
+//    Binding bindingExchangeMessage(@Qualifier("testQueuez")Queue queue,@Qualifier("testExchange") DirectExchange exchange){
+//        return BindingBuilder.bind(queue).to(exchange).with("");
+//    }
 }
