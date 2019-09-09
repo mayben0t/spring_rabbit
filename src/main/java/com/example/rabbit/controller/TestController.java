@@ -1,6 +1,7 @@
 package com.example.rabbit.controller;
 
 
+import com.example.rabbit.model.User;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,9 @@ public class TestController {
 
     @GetMapping("/hi")
     public String test(){
-        rabbitTemplate.convertAndSend(directExchange.getName(),"","this is first");
+        User user = new User(1,"test",22);
+
+        rabbitTemplate.convertAndSend(directExchange.getName(),"",user);
         return "hi";
     }
 }
