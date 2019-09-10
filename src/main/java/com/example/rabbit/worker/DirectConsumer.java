@@ -16,4 +16,16 @@ public class DirectConsumer {
         System.out.println(new SimpleDateFormat("yyyy-MM-dd").format(new Date())
         +":"+message);
     }
+
+    @RabbitListener(queues = {"fanoutQueueA"})
+    public void handlerA(String message){
+        System.out.println("from fanoutA"+new SimpleDateFormat("yyyy-MM-dd").format(new Date())
+                +":"+message);
+    }
+
+    @RabbitListener(queues = {"fanoutQueueB"})
+    public void handlerB(String message){
+        System.out.println("from fanoutB"+new SimpleDateFormat("yyyy-MM-dd").format(new Date())
+                +":"+message);
+    }
 }

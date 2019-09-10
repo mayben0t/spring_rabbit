@@ -24,14 +24,20 @@ public class TestController {
     @Qualifier("directSimple")
     private DirectExchange directExchange;
     @Autowired
-    @Qualifier("directQueue")
-    private Queue directQueue;
+    @Qualifier("fanoutSimple")
+    private FanoutExchange fanoutExchange;
 
 
     @GetMapping("/direct")
     public String directTest(){
         rabbitTemplate.convertAndSend(directExchange.getName(),"123","direct交换器の测试");
         return "success";
+    }
+
+    @GetMapping("/fanout")
+    public String fanoutTest(){
+        rabbitTemplate.convertAndSend(fanoutExchange.getName(),"其实也没用","fanout交换器の测试");
+        return "ooook";
     }
 
 }
