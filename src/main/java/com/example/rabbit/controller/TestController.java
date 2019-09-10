@@ -2,6 +2,7 @@ package com.example.rabbit.controller;
 
 
 import com.example.rabbit.model.User;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -19,59 +20,18 @@ import java.util.UUID;
 public class TestController {
     @Autowired
     private RabbitTemplate rabbitTemplate;
-//    @Autowired
-//    @Qualifier("testExchange")
-//    private DirectExchange directExchange;
+    @Autowired
+    @Qualifier("directSimple")
+    private DirectExchange directExchange;
+    @Autowired
+    @Qualifier("directQueue")
+    private Queue directQueue;
 
-//    @Autowired
-//    @Qualifier("deadLetterExchange")
-//    private Exchange deadLetterExchange;
 
-//    @GetMapping("/hi")
-//    public String test(){
-//        User user = new User(1,"test",22);
-//
-//        rabbitTemplate.convertAndSend(directExchange.getName(),"",user);
-//        return "hi";
-//    }
-
-//    @GetMapping("/hic")
-//    public String testc(){
-//        CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
-//        MessagePostProcessor messagePostProcessor = message -> {
-//            MessageProperties messageProperties = message.getMessageProperties();
-//            messageProperties.setDeliveryMode(MessageDeliveryMode.PERSISTENT);
-//            messageProperties.setContentEncoding("utf-8");
-//            messageProperties.setExpiration("1000");
-//            return message;
-//        };
-//
-//
-//        User user = new User(1,"test",22);
-//
-//        rabbitTemplate.convertAndSend(deadLetterExchange.getName(),"KEY_D"," 我们抬头看天空，星星还亮着几颗",messagePostProcessor);
-//        return "hi";
-//    }
-    @Value("${sunspring.order.exchange}")
-    private String orderExchange;
-
-    @Value("${sunspring.order.queue}")
-    private String orderQueue;
-
-    @Value("${sunspring.order.routingKey}")
-    private String orderRoutingKey;
-
-    /**
-     * 发送带有过期时间的消息
-     */
-    @GetMapping("/sendDlx")
-    public void sendDlx() {
-
-        rabbitTemplate.convertAndSend(orderExchange, orderRoutingKey,
-                "zzzz", message -> {
-                    message.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
-                    message.getMessageProperties().setExpiration("10000");
-                    return message;
-                });
+    @GetMapping("/direct")
+    public String directTest(){
+        rabbitTemplate.convertAndSend(directExchange.getName(),"123","direct交换器の测试");
+        return "success";
     }
+
 }
