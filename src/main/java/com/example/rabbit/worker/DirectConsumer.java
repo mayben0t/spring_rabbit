@@ -9,10 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component
-@RabbitListener(queues = "directQueue")
 public class DirectConsumer {
 
-    @RabbitHandler
+    @RabbitListener(queues = {"directQueue"})
     public void handler(String message){
         System.out.println(new SimpleDateFormat("yyyy-MM-dd").format(new Date())
         +":"+message);
