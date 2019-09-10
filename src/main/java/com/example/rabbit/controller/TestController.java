@@ -68,7 +68,7 @@ public class TestController {
     public void sendDlx() {
 
         rabbitTemplate.convertAndSend(orderExchange, orderRoutingKey,
-                "wcnm", message -> {
+                "zzzz", message -> {
                     message.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
                     message.getMessageProperties().setExpiration("10000");
                     return message;
