@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
@@ -26,7 +27,9 @@ public class TestController {
     @Autowired
     @Qualifier("fanoutSimple")
     private FanoutExchange fanoutExchange;
-
+    @Autowired
+    @Qualifier("topicSimple")
+    private TopicExchange topicExchange;
 
     @GetMapping("/direct")
     public String directTest(){
@@ -40,4 +43,13 @@ public class TestController {
         return "ooook";
     }
 
+    @GetMapping("/topic")
+    public String topicToOrder(@RequestParam(value = "on",defaultValue = "1")Integer on){
+        if(on.equals(1)) {
+            rabbitTemplate.convertAndSend(topicExchange.getName(), "com.order.tuike", "topic交换器到order的の测试");
+        }else {
+            rabbitTemplate.convertAndSend(topicExchange.getName(), "com.course.kaitong", "topic交换器到开通の测试");
+        }
+        return "zz";
+    }
 }

@@ -4,6 +4,7 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -62,6 +63,51 @@ public class RabbitConfig {
     public Binding bindingFanoutB(){
         return BindingBuilder.bind(fanoutQueueB())
                 .to(fanoutExchangeGet());
+    }
+
+    /**
+     * topic model 搞三个队列   com.order.kaitong   com.order.tuike  com.course.kaitong 测试一下
+     * com.order.#
+     */
+    @Bean("topicSimple")
+    public TopicExchange topicExchangeGet(){
+        return new TopicExchange("topicSimple");
+    }
+
+    @Bean
+    public Queue topicOrderKaitong(){
+        return new Queue("topicOrderKaitong");
+    }
+
+    @Bean
+    public Queue topicOrdertuike(){
+        return new Queue("topicOrdertuike");
+    }
+
+    @Bean
+    public Queue topicCourseKaitong(){
+        return new Queue("topicCourseKaitong");
+    }
+
+    @Bean
+    Binding bindingTopicA(){
+        return BindingBuilder.bind(topicOrderKaitong())
+                .to(topicExchangeGet())
+                .with("com.order.#");
+    }
+
+    @Bean
+    Binding bindingTopicB(){
+        return BindingBuilder.bind(topicOrdertuike())
+                .to(topicExchangeGet())
+                .with("com.order.tuike");
+    }
+
+    @Bean
+    Binding bindingTopicC(){
+        return BindingBuilder.bind(topicCourseKaitong())
+                .to(topicExchangeGet())
+                .with("com.#.kaitong");
     }
 }
 
